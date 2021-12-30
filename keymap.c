@@ -9,11 +9,13 @@
 #define _RAISE 2
 #define _NAV 3
 #define _MOD 4
+#define _APPS 5
 
 #define ________ KC_TRNS
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
+#define APPS MO(_APPS)
 
 #define NAV MO(_NAV)
 #define F_NAV LT(NAV, KC_F)
@@ -32,6 +34,19 @@
 #define DELWORD LALT(KC_DEL)
 
 #define CTL_TAB LCTL(KC_TAB)
+
+enum custom_keycodes {
+  // App shortcuts
+  BRAVE = EZ_SAFE_RANGE,
+  FINDER,
+  INTELLIJ,
+  MESSAGES,
+  NOTION,
+  SIGNAL,
+  SPOTIFY,
+  TERMINAL,
+  VIVALDI,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Base
@@ -52,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        ,--------|--------|--------|  |--------+--------+--------.
  *                                        |        |        |        |  |        |        |        |
  *                                        | Space  |        |--------|  |--------|        | Enter  |
- *                                        |        |        |        |  |        |        |        |
+ *                                        |        |        |  Apps  |  |  Apps  |        |        |
  *                                        `--------------------------'  `--------------------------'
  */
 [BASE] = LAYOUT_ergodox(
@@ -65,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ________,  KC_LCTL,  KC_LALT,  KC_LGUI,    LOWER,
                                                               ________, ________,
                                                                         ________,
-                                                      KC_SPC, ________, ________,
+                                                      KC_SPC, ________,     APPS,
 
   // right hand
             ________,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0, ________,
@@ -75,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                          RAISE, ________, ________, ________, ________,
   ________, ________,
   ________,
-  ________, ________,   KC_ENT
+      APPS, ________,   KC_ENT
 
 ),
 
@@ -256,6 +271,51 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ________, ________,
   ________,
   ________, ________, ________
+),
+
+/* Applications
+ *
+ * ,----------------------------------------------------------------.    ,----------------------------------------------------------------.
+ * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
+ * |----------+--------+--------+--------+--------+--------+--------|    |--------+--------+--------+--------+--------+--------+----------|
+ * |          |        |        |        |        |Terminal|        |    |        |        |        |        |        |        |          |
+ * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
+ * |          |Messages|        |        |        |        |--------|    |--------|        |        |        |        |        |          |
+ * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
+ * |          |        |        |        |Vivaldi | Brave  |        |    |        | Notion |Spotify |        |        |        |          |
+ * `----------+--------+--------+--------+--------+-----------------'    `-----------------+--------+--------+--------+--------+----------'
+ *   |        |        |        |        |        |                                        |        |        |        |        |        |
+ *   `--------------------------------------------'                                        `--------------------------------------------'
+ *                                                 ,-----------------.  ,-----------------.
+ *                                                 |        |        |  |        |        |
+ *                                        ,--------|--------|--------|  |--------+--------+--------.
+ *                                        |        |        |        |  |        |        |        |
+ *                                        |        |        |--------|  |--------|        |        |
+ *                                        |        |        |  Apps  |  |  Apps  |        |        |
+ *                                        `--------------------------'  `--------------------------'
+ */
+[_APPS] = LAYOUT_ergodox(
+
+  // left hand
+  ________, ________, ________, ________, ________, ________, ________,
+  ________, ________, ________, ________, ________, TERMINAL, ________,
+  ________, MESSAGES,   SIGNAL, ________, ________, ________,
+  ________, ________, ________, ________,  VIVALDI,    BRAVE, ________,
+  ________, ________, ________, ________, ________,
+                                                              ________, ________,
+                                                                        ________,
+                                                    ________, ________,     APPS,
+
+  // right hand
+            ________, ________, ________, ________, ________, ________, ________,
+            ________, ________, ________, ________, ________, ________, ________,
+                      ________, ________, ________, ________, ________, ________,
+            ________,   NOTION,  SPOTIFY, ________, ________, ________, ________,
+                      ________, ________, ________, ________, ________,
+  ________, ________,
+  ________,
+      APPS, ________, ________
+
 )
 
 };
@@ -274,16 +334,80 @@ void matrix_scan_user(void) {
   ergodox_right_led_2_off();
   ergodox_right_led_3_off();
   switch (layer) {
-    // TODO: Make this relevant to the ErgoDox EZ.
-    /*case MDIA:
+    case _NAV:
+      ergodox_right_led_1_on();
+      break;
+    case _MOD:
       ergodox_right_led_2_on();
-      break;*/
+      break;
     default:
       // none
       break;
   }
 
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case BRAVE:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("brave");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case MESSAGES:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("messages");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case NOTION:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("notion");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case SIGNAL:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("signal");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case SPOTIFY:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("spotify");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case TERMINAL:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("terminal");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case VIVALDI:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("vivaldi");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  }
+  return true;
+}
 
 /* <Layer Name>
  *
