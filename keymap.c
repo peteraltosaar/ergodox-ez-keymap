@@ -40,6 +40,7 @@ enum custom_keycodes {
   BRAVE = EZ_SAFE_RANGE,
   FINDER,
   INTELLIJ,
+  MAIL,
   MESSAGES,
   NOTION,
   SIGNAL,
@@ -278,7 +279,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------------------.    ,----------------------------------------------------------------.
  * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------+--------|    |--------+--------+--------+--------+--------+--------+----------|
- * |          |        |        |        |        |Terminal|        |    |        |        |        |        |        |        |          |
+ * |          |        |        |  Mail  |        |Terminal|        |    |        |        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
  * |          |Messages|        |        |        |        |--------|    |--------|        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
@@ -298,7 +299,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // left hand
   ________, ________, ________, ________, ________, ________, ________,
-  ________, ________, ________, ________, ________, TERMINAL, ________,
+  ________, ________, ________,     MAIL, ________, TERMINAL, ________,
   ________, MESSAGES,   SIGNAL, ________, ________, ________,
   ________, ________, ________, ________,  VIVALDI,    BRAVE, ________,
   ________, ________, ________, ________, ________,
@@ -354,6 +355,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
 	  _delay_ms(200);
 	  SEND_STRING("brave");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case MAIL:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("mail");
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
