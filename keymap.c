@@ -3,9 +3,14 @@
 // 2. The media keys work on OSX (But not on Windows).
 #include QMK_KEYBOARD_H
 
-#define BASE 0 // default layer
-#define _NAV 1
-#define _MOD 2
+// Layers
+#define BASE 0
+#define _LOWER 1
+#define _RAISE 2
+#define _NAV 3
+#define _MOD 4
+
+#define ________ KC_TRANS
 
 #define NAV MO(_NAV)
 #define F_NAV LT(NAV, KC_F)
@@ -25,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * |        |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -47,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_EQL,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LEFT,
+        LCTL(KC_TAB),         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LEFT,
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_TRNS,
         KC_ESC,         KC_A,         KC_S,  D_MOD,  F_NAV,   KC_G,
         KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
@@ -57,14 +62,100 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                KC_SPC,KC_BSPC,KC_END,
         // right hand
              KC_RGHT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             KC_MINS,
-             KC_TRNS,       KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_BSLS,
-                          KC_H,   KC_J,   KC_K,   KC_L,    KC_SCLN,        KC_LGUI,
+             KC_TRNS,       KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_BSPC,
+                          KC_H,   KC_J,   KC_K,   KC_L,    KC_SCLN,        KC_QUOT,
              MEH_T(KC_NO),KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          KC_RSFT,
                                   KC_UP,  KC_DOWN,KC_LBRC,KC_RBRC,          KC_TRNS,
              KC_LALT,        CTL_T(KC_ESC),
              KC_PGUP,
              KC_PGDN,KC_TAB, KC_ENT
     ),
+
+/* Keymap 2: LOWER
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  |   F12  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   #  |   $  |   (  | F_NAV|   `  |------|           |------| Down |   4  |   5  |   6  |   +  |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |    . |   0  |   =  |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+// LOWER
+[_LOWER] = LAYOUT_ergodox(
+       // left hand
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,F_NAV,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+                                       KC_TRNS,KC_TRNS,
+                                               KC_TRNS,
+                               KC_TRNS,KC_TRNS,KC_TRNS,
+       // right hand
+       KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS,KC_TRNS,  KC_TRNS,KC_TRNS,
+       KC_TRNS, KC_TRNS,KC_TRNS, KC_UP,  KC_TRNS,  KC_TRNS,KC_TRNS,
+                ALTLEFT,KC_UNDS,  KC_PLUS,  KC_LCBR,  KC_RCBR,  KC_PIPE,
+       KC_TRNS, KC_TRNS,GUILEFT, KC_TRNS,GUIRGHT,  KC_TRNS,KC_TRNS,
+                         KC_TRNS,KC_TRNS,  KC_0,    KC_EQL,  KC_TRNS,
+       KC_TRNS, KC_TRNS,
+       KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS
+),
+
+/* Keymap 2: RAISE
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |   !  |   @  |   {  |   }  |   |  |      |           |      |   Up |   7  |   8  |   9  |   *  |   F12  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   #  |   $  |   (  | F_NAV|   `  |------|           |------| Down |   4  |   5  |   6  |   +  |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |   %  |   ^  |   [  |   ]  |   ~  |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |    . |   0  |   =  |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+// RAISE
+[_RAISE] = LAYOUT_ergodox(
+       // left hand
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,F_NAV,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+       KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+                                       KC_TRNS,KC_TRNS,
+                                               KC_TRNS,
+                               KC_TRNS,KC_TRNS,KC_TRNS,
+       // right hand
+       KC_TRNS, KC_TRNS,KC_TRNS, KC_TRNS,KC_TRNS,  KC_TRNS,KC_TRNS,
+       KC_TRNS, KC_TRNS,KC_TRNS, KC_UP,  KC_TRNS,  KC_TRNS,KC_TRNS,
+                ALTLEFT,KC_MINS, KC_EQL, KC_LBRC,  KC_RBRC,  KC_BSLS,
+       KC_TRNS, KC_TRNS,GUILEFT, KC_TRNS,GUIRGHT,  KC_TRNS,KC_TRNS,
+                         KC_TRNS,KC_TRNS,  KC_0,    KC_EQL,  KC_TRNS,
+       KC_TRNS, KC_TRNS,
+       KC_TRNS,
+       KC_TRNS, KC_TRNS, KC_TRNS
+),
 
 /* Keymap 2: Navigation
  *
