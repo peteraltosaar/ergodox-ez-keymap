@@ -81,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |----------+--------+--------+--------+--------+--------|Zoom Out|    |Zoom Out|--------+--------+--------+--------+--------+----------|
  * | LShift   |   Z    |   X    |   C    |   V    |   B    |        |    |        |   N    |   M    |   ,    |   .    |   /    |          |
  * `----------+--------+--------+--------+--------+-----------------'    `-----------------+--------+--------+--------+--------+----------'
- *   |        |  Ctl   |  Alt   |  GUI   | Lower  |                                        | Raise  |        |        |        |        |
+ *   |   F4   |  Ctl   |  Alt   |  GUI   | Lower  |                                        | Raise  |        |        |        |        |
  *   `--------------------------------------------'                                        `--------------------------------------------'
  *                                                 ,-----------------.  ,-----------------.
  *                                                 | Divvy  |        |  |        |        |
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,     KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,  ZOOM_IN,
     KC_ESC,     KC_A,     KC_S,    D_MOD,    F_NAV,     KC_G,
    KC_LSFT,     KC_Z,     KC_X,     KC_C,     KC_V,     KC_B, ZOOM_OUT,
-  ________,  KC_LCTL,  KC_LALT,  KC_LGUI,    LOWER,
+     KC_F4,  KC_LCTL,  KC_LALT,  KC_LGUI,    LOWER,
                                                                  DIVVY, ________,
                                                                         ________,
                                                       KC_SPC,  NUMBERS,     APPS,
