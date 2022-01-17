@@ -10,15 +10,13 @@
 #define _NAV 3
 #define _MOD 4
 #define _APPS 5
-#define _NUMBERS 6
-#define _DIVVY 7
+#define _DIVVY 6
 
 #define ________ KC_TRNS
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
 #define APPS MO(_APPS)
-#define NUMBERS MO(_NUMBERS)
 
 #define NAV MO(_NAV)
 #define F_NAV LT(NAV, KC_F)
@@ -43,6 +41,7 @@
 #define ZOOM_OUT LGUI(KC_MINS)
 
 #define ALFRED LALT(KC_SPC)
+#define ADD_TODO LGUI(LALT(KC_A))
 
 // DIVVY Shortcuts
 #define TOPLEFT LGUI(LSFT(LCTL(KC_R)))
@@ -58,6 +57,7 @@
 enum custom_keycodes {
   // App shortcuts
   BRAVE = EZ_SAFE_RANGE,
+  DISCORD,
   FINDER,
   INTELLIJ,
   MAIL,
@@ -66,6 +66,7 @@ enum custom_keycodes {
   SIGNAL,
   SPOTIFY,
   TERMINAL,
+  TODOIST,
   VIVALDI,
 };
 
@@ -101,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_F4,  KC_LCTL,  KC_LALT,  KC_LGUI,    LOWER,
                                                                  DIVVY, ________,
                                                                         ________,
-                                                      KC_SPC,  NUMBERS,     APPS,
+                                                      KC_SPC, ADD_TODO,     APPS,
 
   // right hand
             ________,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0, ________,
@@ -320,8 +321,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // left hand
   ________, ________, ________, ________, ________, ________, ________,
   ________, ________, ________,     MAIL, ________, TERMINAL, ________,
-  ________, MESSAGES,   SIGNAL, ________, ________, ________,
-  ________, ________, ________, ________,  VIVALDI,    BRAVE, ________,
+  ________, MESSAGES,   SIGNAL,  DISCORD, ________, ________,
+  ________, ________, ________, ________,  VIVALDI,    BRAVE,  TODOIST,
   ________, ________, ________, ________, ________,
                                                               ________, ________,
                                                                         ________,
@@ -331,55 +332,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ________, ________, ________, ________, ________, ________, ________,
             ________, ________, ________, ________, ________, ________, ________,
                       ________, ________, ________, ________, ________, ________,
-            ________,   NOTION,  SPOTIFY, ________, ________, ________, ________,
+             TODOIST,   NOTION,  SPOTIFY, ________, ________, ________, ________,
                       ________, ________, ________, ________, ________,
   ________, ________,
   ________,
       APPS, ________, ________
-
-),
-/* Numbers
- *
- * ,----------------------------------------------------------------.    ,----------------------------------------------------------------.
- * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
- * |----------+--------+--------+--------+--------+--------+--------|    |--------+--------+--------+--------+--------+--------+----------|
- * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
- * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
- * |          |   1    |   2    |   3    |   4    |   5    |--------|    |--------|   6    |   7    |   8    |   9    |   0    |          |
- * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
- * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
- * `----------+--------+--------+--------+--------+-----------------'    `-----------------+--------+--------+--------+--------+----------'
- *   |        |        |        |        |        |                                        |        |        |        |        |        |
- *   `--------------------------------------------'                                        `--------------------------------------------'
- *                                                 ,-----------------.  ,-----------------.
- *                                                 |        |        |  |        |        |
- *                                        ,--------|--------|--------|  |--------+--------+--------.
- *                                        |        |        |        |  |        |        |        |
- *                                        |        |        |--------|  |--------|        |        |
- *                                        |        |        |        |  |        |        |        |
- *                                        `--------------------------'  `--------------------------'
- */
-[_NUMBERS] = LAYOUT_ergodox(
-
-  // left hand
-  ________, ________, ________, ________, ________, ________, ________,
-  ________, ________, ________, ________, ________, ________, ________,
-  ________,     KC_1,     KC_2,     KC_3,     KC_4,     KC_5,
-  ________, ________, ________, ________, ________, ________, ________,
-  ________, ________, ________, ________, ________,
-                                                              ________, ________,
-                                                                        ________,
-                                                    ________, ________, ________,
-
-  // right hand
-            ________, ________, ________, ________, ________, ________, ________,
-            ________, ________, ________, ________, ________, ________, ________,
-                          KC_6,     KC_7,     KC_8,     KC_9,     KC_0, ________,
-            ________, ________, ________, ________, ________, ________, ________,
-                      ________, ________, ________, ________, ________,
-  ________, ________,
-  ________,
-  ________, ________, ________
 
 ),
 
@@ -467,6 +424,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
+  case DISCORD:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("discord");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
   case MAIL:
       if (record->event.pressed) {
 	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
@@ -512,6 +477,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
 	  _delay_ms(200);
 	  SEND_STRING("terminal");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case TODOIST:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("opera");
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
