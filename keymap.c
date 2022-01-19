@@ -57,6 +57,7 @@
 enum custom_keycodes {
   // App shortcuts
   BRAVE = EZ_SAFE_RANGE,
+  CLOCKIFY,
   DISCORD,
   FINDER,
   INTELLIJ,
@@ -302,9 +303,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |----------+--------+--------+--------+--------+--------+--------|    |--------+--------+--------+--------+--------+--------+----------|
  * |          |        |        |  Mail  |        |Terminal|        |    |        |        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
- * |          |Messages|        |        |        |        |--------|    |--------|        |        |        |        |        |          |
+ * |          |Messages| Signal |Discord |        |        |--------|    |--------|        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
- * |          |        |        |        |Vivaldi | Brave  |        |    |        | Notion |Spotify |        |        |        |          |
+ * |          |        |        |        |Vivaldi | Brave  |Todoist |    |Todoist | Notion |Spotify |        |        |        |          |
  * `----------+--------+--------+--------+--------+-----------------'    `-----------------+--------+--------+--------+--------+----------'
  *   |        |        |        |        |        |                                        |        |        |        |        |        |
  *   `--------------------------------------------'                                        `--------------------------------------------'
@@ -320,7 +321,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // left hand
   ________, ________, ________, ________, ________, ________, ________,
-  ________, ________, ________,     MAIL, ________, TERMINAL, ________,
+  ________, ________, ________,     MAIL, ________, TERMINAL, CLOCKIFY,
   ________, MESSAGES,   SIGNAL,  DISCORD, ________, ________,
   ________, ________, ________, ________,  VIVALDI,    BRAVE,  TODOIST,
   ________, ________, ________, ________, ________,
@@ -421,6 +422,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
 	  _delay_ms(200);
 	  SEND_STRING("brave");
+	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case CLOCKIFY:
+      if (record->event.pressed) {
+	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+	  _delay_ms(200);
+	  SEND_STRING("firefox");
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
