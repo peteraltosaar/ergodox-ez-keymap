@@ -69,6 +69,7 @@ enum custom_keycodes {
   TERMINAL,
   TODOIST,
   VIVALDI,
+  CMD_CTR
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -165,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Raise
  *
  * ,----------------------------------------------------------------.    ,----------------------------------------------------------------.
- * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
+ * |          |        |        |        |        |        |        |    |Cmd Cntr|        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------+--------|    |--------+--------+--------+--------+--------+--------+----------|
  * |          |        |        |        |        |        |        |    |        |        |        |        |        |        |          |
  * |----------+--------+--------+--------+--------+--------|        |    |        |--------+--------+--------+--------+--------+----------|
@@ -196,7 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                     ________, ________, ________,
 
   // right hand
-            ________, ________, ________, ________, ________, ________, ________,
+             CMD_CTR, ________, ________, ________, ________, ________, ________,
             ________, ________, ________, ________, ________, ________, ________,
                       ________,  KC_MINS,   KC_EQL,  KC_LBRC,  KC_RBRC,  KC_BSLS,
             ________, ________, ________, ________, ________, ________, ________,
@@ -415,6 +416,41 @@ void matrix_scan_user(void) {
 
 };
 
+void command_center(void) {
+
+    SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+    _delay_ms(800);
+    SEND_STRING("opera");
+    SEND_STRING(SS_TAP(X_ENTER));
+    _delay_ms(800);
+    SEND_STRING(SS_LGUI(SS_LCTL(SS_LSFT("r"))));
+    _delay_ms(800);
+
+    SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+    _delay_ms(800);
+    SEND_STRING("calendar");
+    SEND_STRING(SS_TAP(X_ENTER));
+    _delay_ms(800);
+    SEND_STRING(SS_LGUI(SS_LCTL(SS_LSFT("y"))));
+    _delay_ms(800);
+
+    SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+    _delay_ms(800);
+    SEND_STRING("signal");
+    SEND_STRING(SS_TAP(X_ENTER));
+    _delay_ms(800);
+    SEND_STRING(SS_LGUI(SS_LCTL(SS_LSFT("v"))));
+    _delay_ms(800);
+
+    SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
+    _delay_ms(800);
+    SEND_STRING("firefox");
+    SEND_STRING(SS_TAP(X_ENTER));
+    _delay_ms(800);
+    SEND_STRING(SS_LGUI(SS_LCTL(SS_LSFT("n"))));
+    _delay_ms(800);
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
   case BRAVE:
@@ -503,6 +539,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  _delay_ms(200);
 	  SEND_STRING("vivaldi");
 	  SEND_STRING(SS_TAP(X_ENTER));
+      }
+      return false;
+  case CMD_CTR:
+      if (record->event.pressed) {
+	  command_center();
       }
       return false;
   }
