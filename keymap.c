@@ -409,6 +409,10 @@ void matrix_scan_user(void) {
     case _MOD:
       ergodox_right_led_2_on();
       break;
+    case _APPS:
+    case _DIVVY:
+      ergodox_right_led_3_on();
+      break;
     default:
       // none
       break;
