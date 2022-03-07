@@ -74,9 +74,9 @@ enum custom_keycodes {
   INTELLIJ,
   MAIL,
   MESSAGES,
+  MUSIC,
   NOTION,
   SIGNAL,
-  SPOTIFY,
   TERMINAL,
   TODOIST,
   VIVALDI,
@@ -389,7 +389,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             ________, ________, ________, ________, ________, ________, ________,
             ________, ________, ________, ________, ________, ________, ________,
                       ________, ________, ________, ________, ________, ________,
-             TODOIST,   NOTION,  SPOTIFY, ________, ________, ________, ________,
+             TODOIST,   NOTION,    MUSIC, ________, ________, ________, ________,
                       ________, ________, ________, ________, ________,
   ________, ________,
   ________,
@@ -487,7 +487,7 @@ void command_center(void) {
 
     SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
     _delay_ms(800);
-    SEND_STRING("calendar");
+    SEND_STRING("music");
     SEND_STRING(SS_TAP(X_ENTER));
     _delay_ms(800);
     SEND_STRING(SS_LGUI(SS_LCTL(SS_LSFT("y"))));
@@ -568,11 +568,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
-  case SPOTIFY:
+  case MUSIC:
       if (record->event.pressed) {
 	  SEND_STRING(SS_LALT(SS_TAP(X_SPACE)));
 	  _delay_ms(200);
-	  SEND_STRING("spotify");
+	  SEND_STRING("music");
 	  SEND_STRING(SS_TAP(X_ENTER));
       }
       return false;
